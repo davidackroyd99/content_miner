@@ -1,5 +1,9 @@
 import tkinter as tk
 
+import analysis
+import file_loader
+from output import save_output
+
 
 def start_gui():
     window = tk.Tk()
@@ -31,7 +35,15 @@ def start_gui():
 
     destination_frame.pack()
 
-    button = tk.Button(text="Find sentences")
+    def find_sentences():
+        content = file_loader.load_content_file(content_entry.get())
+        known_words = file_loader.load_wordlist_file(known_words_entry.get())
+
+        analysed = analysis.analyse_content(content, known_words)
+
+        save_output(analysed, destination_entry.get(), False, True)
+
+    button = tk.Button(text="Find sentences", command=find_sentences)
     button.pack()
     
     window.mainloop()
