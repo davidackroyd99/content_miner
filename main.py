@@ -30,7 +30,7 @@ def parse_sentence(sentence):
     return Sentence(' '.join(sentence.text.split()).strip(), targets, len(targets))
 
 scan_set = []
-scan_mode = False
+scan_mode = True
 found_sentences = []
 target_count = 0
 token_count = 0
@@ -42,7 +42,7 @@ for s in doc.sents:
 
     for t in parsed.targets:
         scan_set.append(t)
-    if parsed.target_count == 1:
+    if parsed.target_count == 1 or parsed.target_count == 2:
         found_sentences.append(parsed)
 
 print("Percentage of tokens known:", (token_count - target_count) / token_count)
@@ -56,5 +56,8 @@ for t, count in Counter(scan_set).most_common():
 
     for sent in found_sentences:
         if sent.targets[0] == t:
-            print(sent.text)
+            try:
+                print(sent.text)
+            except:
+                print("WARNING: unprintable sentence!")
 
