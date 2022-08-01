@@ -1,4 +1,5 @@
-# Taken from https://github.com/github/gitignore/blob/main/Python.gitignore
+# Taken from https://github.com/github/gitignore/blob/main/Python.gitignore and combined with the JetBrains recommended
+# gitignore, also added a bit at the bottom to ignore VIM tilda files
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -232,3 +233,6 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+
+# My addition - ignore vim files
+*~
