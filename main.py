@@ -2,19 +2,13 @@ import spacy
 
 from collections import Counter
 
+import file_loader
 import sentence
 
 nlp = spacy.load("es_core_news_sm")
 
-text = ""
-
-with open('user/input.txt', encoding='utf-8') as input_file:
-    text = input_file.read()
-
-known_words = []
-with open('user/known_words.txt', encoding='utf-8') as known_file:
-    for line in known_file:
-        known_words.append(line.strip())
+text = file_loader.load_content_file("user/input.txt")
+known_words = file_loader.load_wordlist_file("user/known_words.txt")
 
 doc = nlp(text)
 

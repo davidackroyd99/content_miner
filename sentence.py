@@ -1,6 +1,6 @@
 """Contains all the stuff required for building sentences from the Spacy output"""
 
-from collections.abc import Collection
+from typing import Collection
 
 
 class Sentence:
