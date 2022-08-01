@@ -16,6 +16,7 @@ class AnalysedContent:
 
 
 def analyse_content(content: str, known_words: Collection[str]):
+    """Find all targets within sentences, and count the total number of significant words and targets."""
     doc = nlp(content)
 
     scan_set = []
