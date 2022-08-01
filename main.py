@@ -2,11 +2,7 @@ import spacy
 
 from collections import Counter
 
-class Sentence():
-    def __init__(self, text, targets, target_count):
-        self.text = text
-        self.targets = targets
-        self.target_count = target_count
+import sentence
 
 nlp = spacy.load("es_core_news_sm")
 
@@ -22,13 +18,6 @@ with open('user/known_words.txt', encoding='utf-8') as known_file:
 
 doc = nlp(text)
 
-def get_interesting_tokens(sentence):
-    return [token for token in sentence if token.pos_ in ['ADJ', 'ADV', 'NOUN', 'VERB'] and token.lemma_.isalpha() and not token.is_stop]
-
-def parse_sentence(sentence):
-    targets = [token.lemma_ for token in get_interesting_tokens(sentence) if token.lemma_ not in known_words]
-    return Sentence(' '.join(sentence.text.split()).strip(), targets, len(targets))
-
 scan_set = []
 scan_mode = True
 found_sentences = []
@@ -36,7 +25,7 @@ target_count = 0
 token_count = 0
 
 for s in doc.sents:
-    parsed = parse_sentence(s)
+    parsed = sentence.analyse_sentence(s, known_words)
     target_count += len(parsed.targets)
     token_count += len(s)
 
