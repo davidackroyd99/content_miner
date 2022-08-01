@@ -9,6 +9,11 @@ def print_output(analysed_content: AnalysedContent, scan_mode: bool, freq: bool)
     print(_produce_output(analysed_content, scan_mode, freq))
 
 
+def save_output(analysed_content: AnalysedContent, destination: str, scan_mode: bool, freq: bool):
+    with open(destination, mode="w", encoding="utf-8") as destination_file:
+        destination_file.write(_produce_output(analysed_content, scan_mode, freq))
+
+
 def _produce_output(analysed_content: AnalysedContent, scan_mode: bool, freq: bool) -> str:
     output = [f"Percentage of tokens known: {(analysed_content.token_count - analysed_content.target_count) / analysed_content.token_count}", ""]
 

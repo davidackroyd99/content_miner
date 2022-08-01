@@ -2,7 +2,12 @@ import sys
 
 import analysis
 import file_loader
+from gui import start_gui
 from output import print_output
+
+if sys.argv[1] == "gui":
+    start_gui()
+    exit(0)
 
 content_path = sys.argv[1]
 known_words_path = sys.argv[2]
