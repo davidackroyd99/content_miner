@@ -35,13 +35,23 @@ def start_gui():
 
     destination_frame.pack()
 
+    options_frame = tk.Frame()
+    targets_only = tk.IntVar(value=0)
+    targets_only_tickbox = tk.Checkbutton(master=options_frame, text="Targets Only", variable=targets_only)
+    targets_only_tickbox.grid(row=0, column=0)
+
+    show_freq = tk.IntVar(value=1)
+    show_freq_tickbox = tk.Checkbutton(master=options_frame, text="Show Target Frequency", variable=show_freq)
+    show_freq_tickbox.grid(row=0, column=1)
+
+    options_frame.pack()
+
     def find_sentences():
         content = file_loader.load_content_file(content_entry.get())
         known_words = file_loader.load_wordlist_file(known_words_entry.get())
 
         analysed = analysis.analyse_content(content, known_words)
-
-        save_output(analysed, destination_entry.get(), False, True)
+        save_output(analysed, destination_entry.get(), bool(targets_only.get()), bool(show_freq.get()))
 
     button = tk.Button(text="Find sentences", command=find_sentences)
     button.pack()
