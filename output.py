@@ -27,10 +27,10 @@ def _produce_output(analysed_content: AnalysedContent, scan_mode: bool, freq: bo
             continue
 
         for sent in analysed_content.sentences:
-            if 0 < sent.target_count <= target_count and sent.targets[0] == t:
+            if 0 < sent.target_count <= target_count and t in sent.targets:
                 try:
                     output.append(sent.text)
-                except: # TODO: resolve what to do about printing weird characters
+                except: # TODO: resolve what to do about printing weird characters, obvs this code is pointless
                     output.append("WARNING: unprintable sentence!")
 
     return "\n".join(output)
