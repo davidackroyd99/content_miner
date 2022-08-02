@@ -48,6 +48,12 @@ def start_gui():
     show_freq_tickbox = tk.Checkbutton(master=options_frame, text="Show Target Frequency", variable=show_freq)
     show_freq_tickbox.grid(row=0, column=1)
 
+    target_count_label = tk.Label(master=options_frame, text="Max targets:")
+    target_count_label.grid(row=0, column=2)
+    target_count = tk.Entry(master=options_frame, width=2)
+    target_count.insert(0, "1")
+    target_count.grid(row=0, column=3)
+
     options_frame.pack()
 
     def update_cache():
@@ -62,7 +68,7 @@ def start_gui():
         known_words = file_loader.load_wordlist_file(known_words_entry.get())
 
         analysed = analysis.analyse_content(content, known_words)
-        save_output(analysed, destination_entry.get(), bool(targets_only.get()), bool(show_freq.get()))
+        save_output(analysed, destination_entry.get(), bool(targets_only.get()), bool(show_freq.get()), int(target_count.get()))
 
     button = tk.Button(text="Find sentences", command=find_sentences)
     button.pack()
