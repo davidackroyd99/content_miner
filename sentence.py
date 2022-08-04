@@ -12,6 +12,7 @@ class Sentence:
         self.text = text
         self.targets = targets
         self.target_count = len(targets)
+        self.word_count = len(text.split(" "))
 
 
 def _token_is_interesting(token: SpaCyToken) -> bool:
