@@ -19,8 +19,8 @@ def _token_is_interesting(token: SpaCyToken) -> bool:
             and token.lemma.isalpha() and not token.is_stop)
 
 
-def _get_targets(sentence: SpaCySentence, known_words: Collection[str]) -> Collection[SpaCyToken]:
-    return [token for token in sentence.tokens if _token_is_interesting(token) and token.lemma in known_words]
+def _get_targets(sentence: SpaCySentence, known_words: Collection[str]) -> Collection[str]:
+    return [token.lemma for token in sentence.tokens if _token_is_interesting(token) and token.lemma not in known_words]
 
 
 def analyse_sentence(spacy_sentence: SpaCySentence, known_words: Collection[str]) -> Sentence:
@@ -31,7 +31,7 @@ def analyse_sentence(spacy_sentence: SpaCySentence, known_words: Collection[str]
     :return: analysed sentence
     """
     targets = _get_targets(spacy_sentence, known_words)
-    return Sentence(' '.join(spacy_sentence.text.split()).strip(), targets)
+    return Sentence(' '.join(spacy_sentence.original_text.split()).strip(), targets)
 
 
 class InterestingTokenTestCase(unittest.TestCase):
