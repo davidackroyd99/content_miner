@@ -4,6 +4,7 @@ import analysis
 import cache
 import file_loader
 from output import save_output
+from profiler import profiler
 
 
 def start_gui():
@@ -64,11 +65,21 @@ def start_gui():
     def find_sentences():
         update_cache()
 
+        add_event, get_profile_report = profiler()
+
         content = file_loader.load_content_file(content_entry.get())
         known_words = file_loader.load_wordlist_file(known_words_entry.get())
 
+        add_event("Loading files")
+
         analysed = analysis.analyse_content(content, known_words)
+
+        add_event("Analysis")
+
         save_output(analysed, destination_entry.get(), bool(targets_only.get()), bool(show_freq.get()), int(target_count.get()))
+
+        add_event("Saving output")
+        print(get_profile_report())
 
     button = tk.Button(text="Find sentences", command=find_sentences)
     button.pack()
