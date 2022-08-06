@@ -1,10 +1,10 @@
 import tkinter as tk
 
-import analysis
-import cache
-import file_loader
-from output import save_output
-from profiler import profiler
+from .analysis import analyse_content
+from .cache import *
+from .file_loader import *
+from .output import save_output
+from .profiler import profiler
 
 
 def start_gui():
@@ -17,7 +17,7 @@ def start_gui():
     content_label = tk.Label(master=content_frame, text="Content path:")
     content_label.grid(row=0, column=0)
     content_entry = tk.Entry(master=content_frame, width=80)
-    content_entry.insert(0, cache.read_key(cache.CacheKey.CONTENT_PATH))
+    content_entry.insert(0, read_key(CacheKey.CONTENT_PATH))
     content_entry.grid(row=0, column=1)
 
     content_frame.pack()
@@ -26,7 +26,7 @@ def start_gui():
     known_words_label = tk.Label(master=known_words_frame, text="Known word list path:")
     known_words_label.grid(row=0, column=0)
     known_words_entry = tk.Entry(master=known_words_frame, width=80)
-    known_words_entry.insert(0, cache.read_key(cache.CacheKey.KNOWN_WORDS_PATH))
+    known_words_entry.insert(0, read_key(CacheKey.KNOWN_WORDS_PATH))
     known_words_entry.grid(row=0, column=1)
 
     known_words_frame.pack()
@@ -35,7 +35,7 @@ def start_gui():
     destination_label = tk.Label(master=destination_frame, text="Destination path:")
     destination_label.grid(row=0, column=0)
     destination_entry = tk.Entry(master=destination_frame, width=80)
-    destination_entry.insert(0, cache.read_key(cache.CacheKey.DESTINATION_PATH))
+    destination_entry.insert(0, read_key(CacheKey.DESTINATION_PATH))
     destination_entry.grid(row=0, column=1)
 
     destination_frame.pack()
@@ -58,21 +58,21 @@ def start_gui():
     options_frame.pack()
 
     def update_cache():
-        cache.update_key(cache.CacheKey.CONTENT_PATH, content_entry.get())
-        cache.update_key(cache.CacheKey.KNOWN_WORDS_PATH, known_words_entry.get())
-        cache.update_key(cache.CacheKey.DESTINATION_PATH, destination_entry.get())
+        update_key(CacheKey.CONTENT_PATH, content_entry.get())
+        update_key(CacheKey.KNOWN_WORDS_PATH, known_words_entry.get())
+        update_key(CacheKey.DESTINATION_PATH, destination_entry.get())
 
     def find_sentences():
         update_cache()
 
         add_event, get_profile_report = profiler()
 
-        content = file_loader.load_content_file(content_entry.get())
-        known_words = file_loader.load_wordlist_file(known_words_entry.get())
+        content = load_content_file(content_entry.get())
+        known_words = load_wordlist_file(known_words_entry.get())
 
         add_event("Loading files")
 
-        analysed = analysis.analyse_content(content, known_words)
+        analysed = analyse_content(content, known_words)
 
         add_event("Analysis")
 
