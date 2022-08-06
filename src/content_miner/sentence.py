@@ -1,10 +1,8 @@
 """Contains all the stuff required for building sentences from the Spacy output"""
 
 from typing import Collection
-import unittest
-from unittest import mock
 
-from spacy_facade import SpaCyToken, SpaCySentence
+from .spacy_facade import SpaCyToken, SpaCySentence
 
 
 class Sentence:
@@ -33,45 +31,3 @@ def analyse_sentence(spacy_sentence: SpaCySentence, known_words: Collection[str]
     """
     targets = _get_targets(spacy_sentence, known_words)
     return Sentence(' '.join(spacy_sentence.original_text.split()).strip(), targets)
-
-
-class InterestingTokenTestCase(unittest.TestCase):
-    def test_is_punct(self):
-        token = mock.Mock()
-        token.lemma = "."
-        token.part_of_speech = "PUNCT"
-        token.is_stop = False
-
-        self.assertEqual(_token_is_interesting(token), False)
-
-    def test_is_jibberish(self):
-        token = mock.Mock()
-        token.lemma = "ajskldf98u32worijfe"
-        token.part_of_speech = "ADJ"
-        token.is_stop = False
-
-        self.assertEqual(_token_is_interesting(token), False)
-
-    def test_is_stop_word(self):
-        token = mock.Mock()
-        token.lemma = "tiempo"
-        token.part_of_speech = "NOUN"
-        token.is_stop = True
-
-        self.assertEqual(_token_is_interesting(token), False)
-
-    def test_is_stop_word(self):
-        token = mock.Mock()
-        token.lemma = "agua"
-        token.part_of_speech = "NOUN"
-        token.is_stop = False
-
-        self.assertEqual(_token_is_interesting(token), True)
-
-
-# class AnalyseSentenceTestCase(unittest.TestCase):
-
-
-
-if __name__ == "__main__":
-    unittest.main()
