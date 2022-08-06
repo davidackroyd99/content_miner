@@ -15,4 +15,6 @@ class AnalysisIntegrationTestCase(unittest.TestCase):
         self.assertEqual(self.analysed_content.target_count, 4)
 
     def test_all_targets(self):
-        self.assertListEqual(self.analysed_content.all_targets, ['despertar', 'frío', 'cara', 'fresca'])
+        self.assertIn("despertar", self.analysed_content.all_targets)
+        self.assertIn("frío", self.analysed_content.all_targets)
+        self.assertIn("cara", self.analysed_content.all_targets)
