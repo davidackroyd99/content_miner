@@ -1,7 +1,7 @@
 """For outputting results to the console or saving them to a file."""
 from collections import Counter
 
-from analysis import AnalysedContent
+from .analysis import AnalysedContent
 
 
 def print_output(analysed_content: AnalysedContent, scan_mode: bool, freq: bool, target_count=1) -> str:

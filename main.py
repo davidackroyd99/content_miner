@@ -1,9 +1,9 @@
 import sys
 
-import analysis
-import file_loader
-from gui import start_gui
-from output import print_output
+import src.content_miner.analysis as analysis
+import src.content_miner.file_loader as file_loader
+from src.content_miner.gui import start_gui
+from src.content_miner.output import print_output
 
 if sys.argv[1] == "gui":
     start_gui()
