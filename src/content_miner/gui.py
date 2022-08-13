@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 from .analysis import analyse_content
 from .cache import *
@@ -62,13 +63,44 @@ def start_gui():
         update_key(CacheKey.KNOWN_WORDS_PATH, known_words_entry.get())
         update_key(CacheKey.DESTINATION_PATH, destination_entry.get())
 
+    def validate(content_path: str, known_path: str, destination_path: str, target_count: str) -> bool:
+        errorMsg = ""
+        makeMessage = lambda field : f"\n{field} is a required field."
+
+        if len(content_path) == 0:
+            errorMsg += makeMessage("Content path")
+
+        if len(known_path) == 0:
+            errorMsg += makeMessage("Known words path")
+
+        if len(destination_path) == 0:
+            errorMsg += makeMessage("Destination path")
+
+        try:
+            if int(target_count) < 1:
+                raise ValueError
+        except ValueError:
+            errorMsg += "\nTarget count must be a number greater than zero."
+
+        if len(errorMsg) > 0:
+            messagebox.showerror("Validation Error", errorMsg)
+            return False
+
+        return True
+
     def find_sentences():
+        content_path, known_path, dest_path = content_entry.get(), known_words_entry.get(), destination_entry.get()
+        target_count_str = target_count.get()
+
+        if not validate(content_path, known_path, dest_path, target_count_str):
+            return
+
         update_cache()
 
         add_event, get_profile_report = profiler()
 
-        content = load_content_file(content_entry.get())
-        known_words = load_wordlist_file(known_words_entry.get())
+        content = load_content_file(content_path)
+        known_words = load_wordlist_file(known_path)
 
         add_event("Loading files")
 
@@ -76,7 +108,7 @@ def start_gui():
 
         add_event("Analysis")
 
-        save_output(analysed, destination_entry.get(), bool(targets_only.get()), bool(show_freq.get()), int(target_count.get()))
+        save_output(analysed, dest_path, bool(targets_only.get()), bool(show_freq.get()), int(target_count_str))
 
         add_event("Saving output")
         print(get_profile_report())
